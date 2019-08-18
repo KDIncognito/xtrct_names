@@ -1,0 +1,21 @@
+
+library(XML)
+
+setwd("D:/Users/Documents/mails")
+
+filenames<- list.files(pattern="\\.htm$") #Lists .htm extensions from working directory
+lineList <- lapply(filenames, readLines) #Reads HTM files
+
+result = lapply(filenames, function (filename) {
+  doc = htmlParse(filename)
+  plain_text = xpathSApply(doc, "//p[@class='MsoNormal']//text()", xmlValue)
+}) #Extracts all paragraphs<P></P> with a class 'MsoNormal'.
+
+out<- do.call(rbind, lapply(result, `[`, c(3,0:0))) #Every 3rd row is a sender's name.
+
+abc <- data.frame(do.call('rbind', strsplit(as.character(out),',',fixed=TRUE))) # Splits names at ","
+abc<- abc[c(2,1)] #Reorder as first and last name
+names(abc)<-c("First_name", "Last_name")
+abc[["ful name"]]<- paste(abc$First_name," ",abc$Last_name)
+
+write.csv(abc, file = "D:/Users/Documents/mails/output.csv") #output is saved in a csv file in the same directory
