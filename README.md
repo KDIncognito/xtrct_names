@@ -1,7 +1,8 @@
 ## xtrct_names
 An R code to extract sender's full name from outlook items saved as .htm files on local drive.
 
-### Pre-requisite Need to save all files as .htm files in a directory of your choice.
+### Pre-requisite
+Need to save all files as .htm files in a directory of your choice.
 Can run on Windows and Mac provided you have R and have installed "XML" library. 
 
 ```library(XML) #Have to have this library installed first.
